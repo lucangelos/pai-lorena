@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Surpresa 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:#f5f7fb;
+overflow:hidden;
+opacity:0;
+transition: opacity 0.5s ease;
+}
+
+/* TEXTO */
+
+.mensagem-surpresa{
+font-size:24px;
+margin-bottom:40px;
+color:#394152;
+text-align:center;
+animation:fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+/* CAIXA */
+
+.gift-box{
+position:relative;
+width:150px;
+height:150px;
+cursor:pointer;
+}
+
+/* BASE */
+
+.box{
+width:100%;
+height:100%;
+background:#e63946;
+border-radius:8px;
+position:absolute;
+bottom:0;
+}
+
+/* TAMPA */
+
+.lid{
+width:100%;
+height:40px;
+background:#d62828;
+position:absolute;
+top:0;
+left:0;
+border-radius:8px 8px 0 0;
+transform-origin:bottom;
+transition:0.6s ease;
+}
+
+/* FITAS */
+
+.ribbon-vertical{
+position:absolute;
+width:20px;
+height:100%;
+background:#ffd166;
+left:50%;
+transform:translateX(-50%);
+}
+
+.ribbon-horizontal{
+position:absolute;
+height:20px;
+width:100%;
+background:#ffd166;
+top:20px;
+}
+
+/* LAÇO */
+
+.bow{
+position:absolute;
+top:-25px;
+left:50%;
+transform:translateX(-50%);
+font-size:40px;
+}
+
+/* ANIMAÇÃO ABRIR */
+
+.gift-box.open .lid{
+transform:rotateX(120deg);
+}
+
+/* TREMER */
+
+.gift-box.shake{
+animation:shake 0.5s;
+}
+
+@keyframes shake{
+0%{transform:translateX(0);}
+25%{transform:translateX(-5px);}
+50%{transform:translateX(5px);}
+75%{transform:translateX(-5px);}
+100%{transform:translateX(0);}
+}
+
+/* BRILHO */
+
+.glow{
+position:absolute;
+top:50%;
+left:50%;
+width:10px;
+height:10px;
+background:rgba(255,255,200,0.9);
+border-radius:50%;
+transform:translate(-50%,-50%);
+opacity:0;
+}
+
+.gift-box.open .glow{
+animation:glowUp 0.8s forwards;
+}
+
+@keyframes glowUp{
+0%{transform:translate(-50%,-50%) scale(1); opacity:0;}
+50%{opacity:1;}
+100%{transform:translate(-50%,-200px) scale(8); opacity:0;}
+}
+
+/* CONFETES */
+
+.confetti{
+position:absolute;
+width:8px;
+height:8px;
+background:red;
+top:50%;
+left:50%;
+opacity:0;
+}
+
+.gift-box.open .confetti{
+animation:confetti 1s forwards;
+}
+
+.confetti:nth-child(1){background:#ff4d6d;}
+.confetti:nth-child(2){background:#ffd166;}
+.confetti:nth-child(3){background:#06d6a0;}
+.confetti:nth-child(4){background:#118ab2;}
+
+@keyframes confetti{
+0%{
+transform:translate(-50%,-50%);
+opacity:1;
+}
+100%{
+transform:translate(calc(-50% + var(--x)), calc(-50% + var(--y)));
+opacity:0;
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 class="mensagem-surpresa">
+Você foi escolhida para receber uma surpresa especial 💜
+</h1>
+<h3 class="mensagem-surpresa">Clique aqui para ver sua surpresa</h3>
+
+<div class="gift-box" onclick="abrirPresente()">
+
+<div class="lid"></div>
+
+<div class="box">
+<div class="ribbon-vertical"></div>
+<div class="ribbon-horizontal"></div>
+</div>
+
+<div class="bow">🎀</div>
+
+<div class="glow"></div>
+
+<div class="confetti" style="--x:100px; --y:-150px;"></div>
+<div class="confetti" style="--x:-120px; --y:-130px;"></div>
+<div class="confetti" style="--x:80px; --y:-180px;"></div>
+<div class="confetti" style="--x:-90px; --y:-160px;"></div>
+
+</div>
+
+<!-- SOM -->
+<audio id="som" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
+
+<script>
+
+    document.body.style.opacity = "0";
+
+function abrirPresente(){
+
+const box = document.querySelector('.gift-box');
+const som = document.getElementById('som');
+
+box.classList.add('shake');
+
+setTimeout(()=>{
+
+box.classList.remove('shake');
+box.classList.add('open');
+
+som.play();
+
+/* FADE OUT */
+document.body.style.opacity = "0";
+
+setTimeout(()=>{
+window.location.href = "home.html";
+}, 500);
+
+},500);
+
+}
+
+</script>
+<script>
+
+    window.onload = () => {
+document.body.style.opacity = "1";
+};
+
+window.addEventListener("pageshow", function () {
+
+document.body.style.opacity = "1";
+
+/* remove estados da animação */
+const box = document.querySelector('.gift-box');
+
+if(box){
+box.classList.remove('open');
+box.classList.remove('shake');
+}
+
+});
+</script>
+
+
+</body>
+</html>
